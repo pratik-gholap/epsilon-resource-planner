@@ -1,7 +1,7 @@
 # Epsilon Resource Planner - Technical Reference
 
 ## 📋 Overview
-Professional services resource planning tool for Epsilon with Python Flask backend and SQLite database.
+Professional services resource planning tool for Epsilon with Python Flask backend and SqlPlus database.
 
 **Version 3.0** - Date-Based Assignment System
 
