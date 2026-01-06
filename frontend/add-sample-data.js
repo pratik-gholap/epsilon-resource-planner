@@ -5,7 +5,7 @@
  * Make sure the backend is running on http://localhost:5000
  */
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://resource-planner.example.com/api';
 
 async function addSampleData() {
   console.log('🚀 Adding sample data to Resource Planner...');

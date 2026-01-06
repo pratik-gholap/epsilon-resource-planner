@@ -24,6 +24,7 @@ export default function AssignmentCard({
 }) {
   const { deleteAssignment } = useApp();
   const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState('above');
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Get project and client info
@@ -116,7 +117,12 @@ export default function AssignmentCard({
       draggable={true}
       onDragStart={handleDragStart}
       onClick={handleClick}
-      onMouseEnter={() => setShowTooltip(true)}
+      onMouseEnter={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const viewportMid = window.innerHeight / 2;
+        setTooltipPosition(rect.top > viewportMid ? 'above' : 'below');
+        setShowTooltip(true);
+      }}
       onMouseLeave={() => setShowTooltip(false)}
       title="Click to edit • Drag to move"
     >
@@ -140,7 +146,7 @@ export default function AssignmentCard({
 
       {/* Tooltip */}
       {showTooltip && (
-        <div className="assignment-tooltip">
+        <div className={`assignment-tooltip ${tooltipPosition}`}>
           <div className="tooltip-header">
             <strong>{project.name}</strong>
           </div>

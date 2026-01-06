@@ -139,6 +139,12 @@ body {
   padding: 1rem;
 }
 
+.report-grid-scroll {
+  max-height: 60vh;
+  overflow: auto;
+  padding-bottom: 0.5rem;
+}https://github.com/doitpratik/epsilon-resource-planner/pull/4/conflict?name=frontend%252Fsrc%252Fstyles%252Fglobals.css&ancestor_oid=e10b760ccf1d436e465862fe8ec82876cc0aaa5b&base_oid=b5e43e98bc3d965e589d36a842a94fb622aa501f&head_oid=d58b22d2e1206f34d4017568b8a1ef0139a100e4
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -1249,12 +1255,12 @@ body {
   border-top-color: var(--bg-primary);
 }
 
-.timeline-grid > .grid-row:nth-of-type(2) .assignment-tooltip {
+.assignment-tooltip.below {
   bottom: auto;
   top: calc(100% + 0.5rem);
 }
 
-.timeline-grid > .grid-row:nth-of-type(2) .assignment-tooltip::after {
+.assignment-tooltip.below::after {
   top: -12px;
   border-top-color: transparent;
   border-bottom-color: var(--bg-primary);

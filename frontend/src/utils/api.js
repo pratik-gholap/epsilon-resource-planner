@@ -1,10 +1,11 @@
 /**
  * API Utility Functions
  * Handles all communication with the Flask backend
- * Base URL: http://localhost:5000
+ * Base URL configured via environment variable VITE_API_BASE_URL
  */
 
-const API_BASE_URL = 'http://localhost:5000';
+// Read backend URL from environment variable, fallback to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 /**
  * Generic fetch wrapper with error handling
@@ -222,29 +223,29 @@ export default {
   addPerson,
   updatePerson,
   deletePerson,
-  
+
   // Clients
   getClients,
   addClient,
   updateClient,
   deleteClient,
-  
+
   // Projects
   getProjects,
   addProject,
   updateProject,
   deleteProject,
-  
+
   // Assignments
   getAssignments,
   addAssignment,
   updateAssignment,
   deleteAssignment,
-  
+
   // Bulk
   uploadCSV,
   getAllData,
-  
+
   // Health
   checkBackendHealth,
 };

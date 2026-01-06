@@ -497,7 +497,12 @@ class ResourcePlannerAPI:
     def __init__(self, config: DatabaseConfig) -> None:
         self.config = config
         self.app = Flask(__name__)
-        CORS(self.app)
+        allowed_origins = [
+            origin.strip()
+            for origin in os.environ.get("ALLOWED_ORIGINS", "").split(",")
+            if origin.strip()
+        ]
+        CORS(self.app, resources={r"/api/*": {"origins": allowed_origins}})
 
         self.connection_provider = SQLAlchemyConnectionProvider(config)
         self.db_initializer = DatabaseInitializer(self.connection_provider, config)
@@ -588,6 +593,28 @@ class ResourcePlannerAPI:
             "percentage": percentage,
         }
 
+    @staticmethod
+    def _serialize_date(value: Any) -> str | None:
+        if value is None:
+            return None
+        if isinstance(value, datetime):
+            return value.date().isoformat()
+        if isinstance(value, date):
+            return value.isoformat()
+        if isinstance(value, str):
+            return value[:10]
+        return str(value)
+
+    def _serialize_assignment_row(self, row: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "id": row.get("id"),
+            "person_id": row.get("person_id"),
+            "project_id": row.get("project_id"),
+            "start_date": self._serialize_date(row.get("start_date")),
+            "end_date": self._serialize_date(row.get("end_date")),
+            "percentage": row.get("percentage"),
+        }
+
     # ---------------------------- Routes ---------------------------------
     def _register_routes(self) -> None:
         app = self.app
@@ -673,7 +700,9 @@ class ResourcePlannerAPI:
         @app.route("/api/assignments", methods=["GET"])
         def get_assignments():
             logger.info("Listing assignments")
-            assignments = self.assignments_repo.list()
+            assignments = [
+                self._serialize_assignment_row(row) for row in self.assignments_repo.list()
+            ]
             return jsonify(assignments)
 
         @app.route("/api/assignments", methods=["POST"])
@@ -800,8 +829,8 @@ class ResourcePlannerAPI:
                             "id": assignment_id,
                             "personId": normalized["personId"],
                             "projectId": normalized["projectId"],
-                            "startDate": normalized["startDate"],
-                            "endDate": normalized["endDate"],
+                            "startDate": normalized["startDate"].isoformat(),
+                            "endDate": normalized["endDate"].isoformat(),
                             "percentage": normalized["percentage"],
                         }
                     )

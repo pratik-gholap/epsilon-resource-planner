@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 /**
  * Export assignments to Excel
  */
-export function exportToExcel(assignments, people, projects, clients) {
+export function exportToExcel(people, clients, projects, assignments) {
   // Prepare assignments data
   const assignmentsData = assignments.map(a => {
     const person = people.find(p => p.id === a.personId);

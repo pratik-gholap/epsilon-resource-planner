@@ -253,7 +253,7 @@ export default function Reports({ people, clients, projects, assignments, onBack
 
       {/* Team Allocation View */}
       {viewType === 'team' && (
-        <div style={{ overflowX: 'auto' }}>
+        <div className="report-grid-scroll">
           <table className="report-table">
             <thead>
               <tr>
